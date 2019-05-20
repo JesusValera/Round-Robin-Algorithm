@@ -27,6 +27,6 @@ class Team extends Model
      */
     public function images()
     {
-        return $this->hasMany('App\Image');
+        return $this->hasMany('App\Image', 'id_team');
     }
 }
