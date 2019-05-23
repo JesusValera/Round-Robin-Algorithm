@@ -10662,3 +10662,32 @@ a.text-dark:focus {
   }
 }
 
+html,
+body {
+  background-color: #fff;
+  color: #636b6f;
+  font-family: "Nunito", sans-serif;
+  font-weight: 200;
+  margin: 0;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 56px;
+}
+
+.show-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card-title {
+  color: red;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
