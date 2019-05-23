@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/tournament', 'TournamentController@index');
+Route::get('/tournament', 'TournamentController@index')->name('tournament');
