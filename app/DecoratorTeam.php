@@ -12,7 +12,7 @@ class DecoratorTeam extends Team
         return $this->matchesPlayed;
     }
 
-    public function incrementmatchesPlayed(): self
+    public function incrementMatchesPlayed(): self
     {
         $this->matchesPlayed++;
 
