@@ -15,7 +15,9 @@
                         <ul class="list-group list-group-flush">
                             @foreach ($team as $match)
                                 <li class="list-group-item">
-                                    {{ $match['local']->id }} vs {{ $match['visitant']->id }}
+                                    ({{ $match['local']->id }}) {{ $match['local']->name }}
+                                    vs
+                                    {{ $match['visitant']->name }} ({{ $match['visitant']->id }})
                                 </li>
                             @endforeach
                         </ul>
