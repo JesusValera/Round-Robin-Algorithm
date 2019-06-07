@@ -1,15 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Team;
-use Illuminate\Http\Request;
+use App\Modules\Tournament\Repositories\TeamRepository;
 
-class HomeController extends Controller
+final class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index(TeamRepository $teamRepository)
     {
-        $teams = Team::with('images')->get();
+        $teams = $teamRepository->getAllWith('images');
 
         return view('home', [
             'teams' => $teams,
