@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(TeamRepository::class, EloquentTeamRepository::class);
+        $this->app->bind(TeamRepository::class, EloquentTeamRepository::class);
     }
 
     /**
