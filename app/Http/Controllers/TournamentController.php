@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Modules\Tournament\Repositories\TeamRepository;
 use App\Modules\Tournament\TournamentBuilder;
+use Illuminate\Http\Request;
 
 final class TournamentController extends Controller
 {
-    public function index(TeamRepository $repository)
+    /** @var TeamRepository */
+    private $teamRepository;
+
+    public function __construct(TeamRepository $teamRepository)
     {
-        $teams = $repository->getAll();
+        $this->teamRepository = $teamRepository;
+    }
+
+    public function index(Request $request)
+    {
+        $teams = $this->teamRepository->getAll();
         $tournamentBuilder = new TournamentBuilder($teams);
         $matchesPlayed = $tournamentBuilder->build();
 

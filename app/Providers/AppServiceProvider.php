@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Modules\Tournament\Repositories\EloquentTeam;
+use App\Modules\Tournament\Repositories\EloquentTeamRepository;
 use App\Modules\Tournament\Repositories\TeamRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(TeamRepository::class, EloquentTeam::class);
+        $this->app->singleton(TeamRepository::class, EloquentTeamRepository::class);
     }
 
     /**

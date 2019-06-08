@@ -4,7 +4,7 @@ namespace App\Modules\Tournament\Repositories;
 
 use App\Team;
 
-final class EloquentTeam implements TeamRepository
+final class EloquentTeamRepository implements TeamRepository
 {
     /** @var Team */
     private $team;
