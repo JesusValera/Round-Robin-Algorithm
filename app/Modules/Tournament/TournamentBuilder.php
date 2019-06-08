@@ -33,7 +33,7 @@ final class TournamentBuilder
         $this->matchesPerRound = $this->totalTeams / 2;
     }
 
-    public function build()
+    public function build(): array
     {
         $this->fillLocalInAllMatches();
         $this->fillFirstMatchEachRound();
@@ -44,12 +44,14 @@ final class TournamentBuilder
 
     private function fillLocalInAllMatches(): void
     {
-        for ($i = 0, $k = 0; $i < $this->rounds; $i++) {
-            for ($j = 0; $j < $this->matchesPerRound; $j++) {
-                $this->matchesPlayed[$i][$j][self::LOCAL] = $k;
+        for ($round = 0, $teamNumber = 0; $round < $this->rounds; $round++) {
+            for ($match = 0; $match < $this->matchesPerRound; $match++) {
+                $this->matchesPlayed[$round][$match][self::LOCAL] = $teamNumber;
 
-                if (++$k === $this->rounds) {
-                    $k = 0;
+                $teamNumber++;
+
+                if ($teamNumber === $this->rounds) {
+                    $teamNumber = 0;
                 }
             }
         }
@@ -57,12 +59,12 @@ final class TournamentBuilder
 
     private function fillFirstMatchEachRound(): void
     {
-        for ($i = 0; $i < $this->rounds; $i++) {
-            if ($i % 2 === 0) {
-                $this->matchesPlayed[$i][0][self::VISITANT] = $this->totalTeams - 1;
+        for ($round = 0; $round < $this->rounds; $round++) {
+            if ($round % 2 === 0) {
+                $this->matchesPlayed[$round][0][self::VISITANT] = $this->totalTeams - 1;
             } else {
-                $this->matchesPlayed[$i][0][self::VISITANT] = $this->matchesPlayed[$i][0][self::LOCAL];
-                $this->matchesPlayed[$i][0][self::LOCAL] = $this->totalTeams - 1;
+                $this->matchesPlayed[$round][0][self::VISITANT] = $this->matchesPlayed[$round][0][self::LOCAL];
+                $this->matchesPlayed[$round][0][self::LOCAL] = $this->totalTeams - 1;
             }
         }
     }
@@ -73,12 +75,14 @@ final class TournamentBuilder
         //  use the biggest even number in the first round.
         $oddBiggestNumber = $this->rounds - 1;
 
-        for ($i = 0, $k = $oddBiggestNumber; $i < $this->rounds; $i++) {
-            for ($j = 1; $j < $this->matchesPerRound; $j++) {
-                $this->matchesPlayed[$i][$j][self::VISITANT] = $k;
+        for ($round = 0, $teamNumber = $oddBiggestNumber; $round < $this->rounds; $round++) {
+            for ($match = 1; $match < $this->matchesPerRound; $match++) {
+                $this->matchesPlayed[$round][$match][self::VISITANT] = $teamNumber;
 
-                if (--$k === -1) {
-                    $k = $oddBiggestNumber;
+                $teamNumber--;
+
+                if ($teamNumber === -1) {
+                    $teamNumber = $oddBiggestNumber;
                 }
             }
         }
@@ -92,11 +96,11 @@ final class TournamentBuilder
         $matchGoing = [];
         $matchComing = [];
 
-        for ($i = 0; $i < count($this->matchesPlayed); $i++) {
-            for ($j = 0; $j < count($this->matchesPlayed[$i]); $j++) {
+        for ($round = 0; $round < count($this->matchesPlayed); $round++) {
+            for ($match = 0; $match < count($this->matchesPlayed[$round]); $match++) {
 
-                $local = $this->matchesPlayed[$i][$j][self::LOCAL];
-                $visitant = $this->matchesPlayed[$i][$j][self::VISITANT];
+                $local = $this->matchesPlayed[$round][$match][self::LOCAL];
+                $visitant = $this->matchesPlayed[$round][$match][self::VISITANT];
 
                 $coming = [
                     'local' => $this->teams[$local],
@@ -107,8 +111,8 @@ final class TournamentBuilder
                     'visitant' => $this->teams[$local],
                 ];
 
-                $matchComing[$i][$j] = $coming;
-                $matchGoing[$i][$j] = $going;
+                $matchComing[$round][$match] = $coming;
+                $matchGoing[$round][$match] = $going;
             }
         }
 
