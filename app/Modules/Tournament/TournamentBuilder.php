@@ -7,8 +7,8 @@ namespace App\Modules\Tournament;
  */
 final class TournamentBuilder
 {
-    private const LOCAL = 'local';
-    private const VISITANT = 'visitant';
+    public const LOCAL = 'local';
+    public const VISITANT = 'visitant';
 
     /** @var array $teams */
     private $teams;
@@ -25,9 +25,14 @@ final class TournamentBuilder
     /** @var array */
     private $matchesPlayed = [];
 
-    public function __construct(array $teams)
+    public static function withTeams(\App\Team... $teams): self
     {
-        $this->teams = $teams;
+        return new self($teams);
+    }
+
+    private function __construct(array $teams)
+    {
+        $this->teams = array_splice($teams, 0, 4);
         $this->totalTeams = count($this->teams);
         $this->rounds = $this->totalTeams;
         $this->matchesPerRound = floor($this->totalTeams / 2);

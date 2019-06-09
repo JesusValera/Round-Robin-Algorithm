@@ -19,7 +19,7 @@ final class TournamentController extends Controller
     public function index(Request $request)
     {
         $teams = $this->teamRepository->getAll();
-        $tournamentBuilder = new TournamentBuilder($teams);
+        $tournamentBuilder = TournamentBuilder::withTeams(...$teams);
         $matchesPlayed = $tournamentBuilder->build();
 
         return view('tournament', [
