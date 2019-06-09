@@ -29,20 +29,75 @@ final class TournamentBuilder
     {
         $this->teams = $teams;
         $this->totalTeams = count($this->teams);
-        $this->rounds = $this->totalTeams - 1;
-        $this->matchesPerRound = $this->totalTeams / 2;
+        $this->rounds = $this->totalTeams;
+        $this->matchesPerRound = floor($this->totalTeams / 2);
     }
 
     public function build(): array
     {
-        $this->fillLocalInAllMatches();
-        $this->fillFirstMatchEachRound();
-        $this->fillInRemainingRounds();
+        if ($this->areTheyEvenTeams()) {
+            $this->generateTournamentForEvenTeams();
+        } else {
+            $this->generateTournamentForOddTeams();
+        }
 
         return $this->generateGoingAndComingMatches();
     }
 
-    private function fillLocalInAllMatches(): void
+    private function areTheyEvenTeams(): bool
+    {
+        return $this->totalTeams % 2 === 0;
+    }
+
+    private function generateTournamentForEvenTeams(): void
+    {
+        $this->rounds--;
+        $this->fillLocalInAllMatchesEven();
+        $this->fillFirstMatchEachRoundEven();
+        $this->fillInRemainingRoundsEven();
+    }
+
+    private function generateTournamentForOddTeams(): void
+    {
+        $this->fillLocalInAllMatchesOdd();
+        $this->fillInRemainingRoundsOdd();
+    }
+
+    private function fillLocalInAllMatchesOdd(): void
+    {
+        for ($round = 0, $teamNumber = 0; $round < $this->rounds; $round++) {
+            for ($match = -1; $match < $this->matchesPerRound; $match++) {
+                if ($match >= 0) {
+                    $this->matchesPlayed[$round][$match][self::LOCAL] = $teamNumber;
+                }
+
+                $teamNumber++;
+
+                if ($teamNumber === $this->totalTeams) {
+                    $teamNumber = 0;
+                }
+            }
+        }
+    }
+
+    private function fillInRemainingRoundsOdd(): void
+    {
+        $evenBiggestNumber = $this->rounds - 1;
+
+        for ($round = 0, $teamNumber = $evenBiggestNumber; $round < $this->rounds; $round++) {
+            for ($match = 0; $match < $this->matchesPerRound; $match++) {
+                $this->matchesPlayed[$round][$match][self::VISITANT] = $teamNumber;
+
+                $teamNumber--;
+
+                if ($teamNumber === -1) {
+                    $teamNumber = $evenBiggestNumber;
+                }
+            }
+        }
+    }
+
+    private function fillLocalInAllMatchesEven(): void
     {
         for ($round = 0, $teamNumber = 0; $round < $this->rounds; $round++) {
             for ($match = 0; $match < $this->matchesPerRound; $match++) {
@@ -57,7 +112,7 @@ final class TournamentBuilder
         }
     }
 
-    private function fillFirstMatchEachRound(): void
+    private function fillFirstMatchEachRoundEven(): void
     {
         for ($round = 0; $round < $this->rounds; $round++) {
             if ($round % 2 === 0) {
@@ -69,7 +124,7 @@ final class TournamentBuilder
         }
     }
 
-    private function fillInRemainingRounds(): void
+    private function fillInRemainingRoundsEven(): void
     {
         // We use the biggest odd number because we have already
         //  use the biggest even number in the first round.
