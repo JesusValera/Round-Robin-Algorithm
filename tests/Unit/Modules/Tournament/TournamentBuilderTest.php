@@ -11,48 +11,47 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 final class TournamentBuilderTest extends TestCase
 {
     /** @var Team */
-    private $team_one;
+    private $teamOne;
 
     /** @var Team */
-    private $team_two;
+    private $teamTwo;
 
     /** @var Team */
-    private $team_three;
+    private $teamThree;
 
     /** @var Team */
-    private $team_four;
+    private $teamFour;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->team_one = new Team(['id' => 1, 'name' => 'Team 1']);
-        $this->team_two = new Team(['id' => 2, 'name' => 'Team 2']);
-        $this->team_three = new Team(['id' => 3, 'name' => 'Team 3']);
-        $this->team_four = new Team(['id' => 4, 'name' => 'Team 4']);
+        $this->teamOne = new Team(['id' => 1, 'name' => 'Team 1']);
+        $this->teamTwo = new Team(['id' => 2, 'name' => 'Team 2']);
+        $this->teamThree = new Team(['id' => 3, 'name' => 'Team 3']);
+        $this->teamFour = new Team(['id' => 4, 'name' => 'Team 4']);
     }
 
     public function testTournamentTwoTeams()
     {
         $teams = [
-            $this->team_one,
-            $this->team_two,
+            $this->teamOne,
+            $this->teamTwo,
         ];
 
-        /** @var TournamentBuilder */
         $tournamentBuilder = TournamentBuilder::withTeams(...$teams);
         $result = $tournamentBuilder->build();
 
         $expected = [
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_one,
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamOne,
                 ]
             ],
         ];
@@ -63,50 +62,49 @@ final class TournamentBuilderTest extends TestCase
     public function testTournamentThreeTeams()
     {
         $teams = [
-            $this->team_one,
-            $this->team_two,
-            $this->team_three,
+            $this->teamOne,
+            $this->teamTwo,
+            $this->teamThree,
         ];
 
-        /** @var TournamentBuilder */
         $tournamentBuilder = TournamentBuilder::withTeams(...$teams);
         $result = $tournamentBuilder->build();
 
         $expected = [
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_three,
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamThree,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_three,
-                    TournamentBuilder::VISITANT => $this->team_one,
+                    TournamentBuilder::LOCAL => $this->teamThree,
+                    TournamentBuilder::VISITANT => $this->teamOne,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_three,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamThree,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_one,
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamOne,
                 ]
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_three,
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamThree,
                 ]
             ],
         ];
@@ -117,75 +115,74 @@ final class TournamentBuilderTest extends TestCase
     public function testTournamentFourTeams()
     {
         $teams = [
-            $this->team_one,
-            $this->team_two,
-            $this->team_three,
-            $this->team_four,
+            $this->teamOne,
+            $this->teamTwo,
+            $this->teamThree,
+            $this->teamFour,
         ];
 
-        /** @var TournamentBuilder */
         $tournamentBuilder = TournamentBuilder::withTeams(...$teams);
         $result = $tournamentBuilder->build();
 
         $expected = [
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_four,
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamFour,
                 ],
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_three,
-                ],
-            ],
-            [
-                [
-                    TournamentBuilder::LOCAL => $this->team_four,
-                    TournamentBuilder::VISITANT => $this->team_three,
-                ],
-                [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamThree,
                 ],
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_four,
+                    TournamentBuilder::LOCAL => $this->teamFour,
+                    TournamentBuilder::VISITANT => $this->teamThree,
                 ],
                 [
-                    TournamentBuilder::LOCAL => $this->team_three,
-                    TournamentBuilder::VISITANT => $this->team_one,
-                ],
-            ],
-            [
-                [
-                    TournamentBuilder::LOCAL => $this->team_four,
-                    TournamentBuilder::VISITANT => $this->team_one,
-                ],
-                [
-                    TournamentBuilder::LOCAL => $this->team_three,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
                 ],
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_three,
-                    TournamentBuilder::VISITANT => $this->team_four,
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamFour,
                 ],
                 [
-                    TournamentBuilder::LOCAL => $this->team_two,
-                    TournamentBuilder::VISITANT => $this->team_one,
+                    TournamentBuilder::LOCAL => $this->teamThree,
+                    TournamentBuilder::VISITANT => $this->teamOne,
                 ],
             ],
             [
                 [
-                    TournamentBuilder::LOCAL => $this->team_four,
-                    TournamentBuilder::VISITANT => $this->team_two,
+                    TournamentBuilder::LOCAL => $this->teamFour,
+                    TournamentBuilder::VISITANT => $this->teamOne,
                 ],
                 [
-                    TournamentBuilder::LOCAL => $this->team_one,
-                    TournamentBuilder::VISITANT => $this->team_three,
+                    TournamentBuilder::LOCAL => $this->teamThree,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
+                ],
+            ],
+            [
+                [
+                    TournamentBuilder::LOCAL => $this->teamThree,
+                    TournamentBuilder::VISITANT => $this->teamFour,
+                ],
+                [
+                    TournamentBuilder::LOCAL => $this->teamTwo,
+                    TournamentBuilder::VISITANT => $this->teamOne,
+                ],
+            ],
+            [
+                [
+                    TournamentBuilder::LOCAL => $this->teamFour,
+                    TournamentBuilder::VISITANT => $this->teamTwo,
+                ],
+                [
+                    TournamentBuilder::LOCAL => $this->teamOne,
+                    TournamentBuilder::VISITANT => $this->teamThree,
                 ],
             ],
             
